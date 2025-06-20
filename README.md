@@ -103,7 +103,7 @@ src/
 
 ### 1. Loyihani klonlash
 ```bash
-git clone https://github.com/yourusername/streaming-service.git
+git clone https://github.com/MuminjonovAsrorbek/Streaming-Service.git
 cd streaming-service
 ```
 
@@ -213,9 +213,9 @@ Bu loyiha MIT litsenziyasi ostida tarqatiladi. Batafsil ma'lumot uchun [LICENSE]
 ## 📞 Aloqa
 
 Savollar yoki takliflar uchun:
-- Email: asrorbek@example.com
-- Telegram: @asrorbek
-- LinkedIn: [Asrorbek](https://linkedin.com/in/asrorbek)
+- Email: muminjonovasrorbek@gmail.com
+- Telegram: @Kompyuterchi_aka
+- LinkedIn: [Asrorbek](www.linkedin.com/in/asrorbek-muminjonov)
 
 ## 🙏 Minnatdorchilik
 

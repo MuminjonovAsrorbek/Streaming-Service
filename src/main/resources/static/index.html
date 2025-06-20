@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming Service - Zamonaviy Video Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-play-circle"></i>
+                <span>StreamBox</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Bosh sahifa</a></li>
+                <li><a href="#content" class="nav-link">Kontent</a></li>
+                <li><a href="#users" class="nav-link">Foydalanuvchilar</a></li>
+                <li><a href="#admin" class="nav-link">Admin</a></li>
+            </ul>
+            <div class="nav-auth">
+                <button class="btn-primary" onclick="showLoginModal()">Kirish</button>
+                <button class="btn-secondary" onclick="showRegisterModal()">Ro'yxatdan o'tish</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Eng yaxshi seriallar va filmlar bu yerda</h1>
+            <p>Minglab filmlar, seriallar, multfilmlar va anime-larni tomosha qiling</p>
+            <div class="hero-buttons">
+                <button class="btn-hero primary" onclick="showSection('content')">
+                    <i class="fas fa-play"></i> Tomosha qilishni boshlang
+                </button>
+                <button class="btn-hero secondary" onclick="showRegisterModal()">
+                    <i class="fas fa-info-circle"></i> Batafsil
+                </button>
+            </div>
+        </div>
+        <div class="hero-video">
+            <div class="video-placeholder">
+                <i class="fas fa-play-circle"></i>
+                <span>Promo Video</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section id="content" class="content-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Barcha Kontent</h2>
+                <div class="content-filters">
+                    <select id="contentTypeFilter">
+                        <option value="">Barcha turlar</option>
+                        <option value="FILM">Filmlar</option>
+                        <option value="SERIAL">Seriallar</option>
+                        <option value="CARTOON">Multfilmlar</option>
+                        <option value="ANIME">Anime</option>
+                    </select>
+                    <select id="ageLimitFilter">
+                        <option value="">Barcha yoshlar</option>
+                        <option value="G">G (Barcha yoshlar)</option>
+                        <option value="PG13">PG-13 (13+)</option>
+                        <option value="R18">R-18 (18+)</option>
+                    </select>
+                    <select id="premiumFilter">
+                        <option value="">Barcha</option>
+                        <option value="FREE">Bepul</option>
+                        <option value="GENERAL">Umumiy</option>
+                        <option value="PREMIUM">Premium</option>
+                    </select>
+                    <button class="btn-primary" onclick="filterContent()">Filter</button>
+                    <button class="btn-secondary" onclick="showAddContentModal()">
+                        <i class="fas fa-plus"></i> Yangi kontent
+                    </button>
+                </div>
+            </div>
+            <div id="contentGrid" class="content-grid">
+                <!-- Content will be loaded here -->
+            </div>
+            <div class="pagination">
+                <button id="prevPage" class="btn-secondary" onclick="changePage(-1)">
+                    <i class="fas fa-chevron-left"></i> Oldingi
+                </button>
+                <span id="pageInfo">1-sahifa</span>
+                <button id="nextPage" class="btn-secondary" onclick="changePage(1)">
+                    Keyingi <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Users Section -->
+    <section id="users" class="users-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Foydalanuvchilar</h2>
+                <button class="btn-primary" onclick="showAddUserModal()">
+                    <i class="fas fa-user-plus"></i> Yangi foydalanuvchi
+                </button>
+            </div>
+            <div id="usersGrid" class="users-grid">
+                <!-- Users will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Section -->
+    <section id="admin" class="admin-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <div class="admin-cards">
+                <div class="admin-card">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Aktyorlar</h3>
+                        <p>Aktyorlarni boshqarish</p>
+                        <button class="btn-primary" onclick="showAddActorModal()">Yangi aktor</button>
+                    </div>
+                </div>
+                <div class="admin-card">
+                    <div class="card-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Janrlar</h3>
+                        <p>Janrlarni boshqarish</p>
+                        <button class="btn-primary" onclick="showAddGenreModal()">Yangi janr</button>
+                    </div>
+                </div>
+                <div class="admin-card">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Statistika</h3>
+                        <p>Platform statistikasi</p>
+                        <button class="btn-primary" onclick="loadStatistics()">Ko'rish</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Kirish</h3>
+                <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Parol</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Kirish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Ro'yxatdan o'tish</h3>
+                <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm" onsubmit="createUser(event)">
+                    <div class="form-group">
+                        <label for="registerFullName">To'liq ism</label>
+                        <input type="text" id="registerFullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Parol</label>
+                        <input type="password" id="registerPassword" required>
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Ro'yxatdan o'tish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Content Modal -->
+    <div id="addContentModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Yangi Kontent Qo'shish</h3>
+                <span class="close" onclick="closeModal('addContentModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addContentForm" onsubmit="createContent(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contentName">Nomi</label>
+                            <input type="text" id="contentName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contentYear">Chiqarilgan yil</label>
+                            <input type="number" id="contentYear" min="1900" max="2030" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contentDescription">Tavsif</label>
+                        <textarea id="contentDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contentDuration">Davomiyligi (daqiqa)</label>
+                            <input type="number" id="contentDuration" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contentType">Turi</label>
+                            <select id="contentType" required>
+                                <option value="">Tanlang</option>
+                                <option value="FILM">Film</option>
+                                <option value="SERIAL">Serial</option>
+                                <option value="CARTOON">Multfilm</option>
+                                <option value="ANIME">Anime</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contentAgeLimit">Yosh chegarasi</label>
+                            <select id="contentAgeLimit" required>
+                                <option value="">Tanlang</option>
+                                <option value="G">G (Barcha yoshlar)</option>
+                                <option value="PG13">PG-13 (13+)</option>
+                                <option value="R18">R-18 (18+)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="contentPremium">Premium holati</label>
+                            <select id="contentPremium" required>
+                                <option value="">Tanlang</option>
+                                <option value="FREE">Bepul</option>
+                                <option value="GENERAL">Umumiy</option>
+                                <option value="PREMIUM">Premium</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Qo'shish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yangi Foydalanuvchi</h3>
+                <span class="close" onclick="closeModal('addUserModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm" onsubmit="createUserFromAdmin(event)">
+                    <div class="form-group">
+                        <label for="userFullName">To'liq ism</label>
+                        <input type="text" id="userFullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">Email</label>
+                        <input type="email" id="userEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userPassword">Parol</label>
+                        <input type="password" id="userPassword" required>
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Qo'shish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Actor Modal -->
+    <div id="addActorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yangi Aktor</h3>
+                <span class="close" onclick="closeModal('addActorModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addActorForm" onsubmit="createActor(event)">
+                    <div class="form-group">
+                        <label for="actorFullName">Aktor ismi</label>
+                        <input type="text" id="actorFullName" required>
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Qo'shish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Genre Modal -->
+    <div id="addGenreModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yangi Janr</h3>
+                <span class="close" onclick="closeModal('addGenreModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addGenreForm" onsubmit="createGenre(event)">
+                    <div class="form-group">
+                        <label for="genreName">Janr nomi</label>
+                        <input type="text" id="genreName" required>
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Qo'shish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Detail Modal -->
+    <div id="contentDetailModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 id="contentDetailTitle">Kontent ma'lumotlari</h3>
+                <span class="close" onclick="closeModal('contentDetailModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="contentDetailBody">
+                    <!-- Content details will be loaded here -->
+                </div>
+                <div class="content-actions">
+                    <button class="btn-primary" onclick="showRateModal()">
+                        <i class="fas fa-star"></i> Baholash
+                    </button>
+                    <button class="btn-secondary" onclick="watchContent()">
+                        <i class="fas fa-play"></i> Tomosha qilish
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rate Content Modal -->
+    <div id="rateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Kontent Baholash</h3>
+                <span class="close" onclick="closeModal('rateModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="rateForm" onsubmit="rateContent(event)">
+                    <div class="form-group">
+                        <label for="userId">Foydalanuvchi ID</label>
+                        <input type="number" id="userId" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Baho (1-10)</label>
+                        <input type="number" id="rating" min="1" max="10" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ratingComment">Izoh</label>
+                        <textarea id="ratingComment" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Baholash</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Detail Modal -->
+    <div id="userDetailModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 id="userDetailTitle">Foydalanuvchi ma'lumotlari</h3>
+                <span class="close" onclick="closeModal('userDetailModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="userDetailBody">
+                    <!-- User details will be loaded here -->
+                </div>
+                <div class="user-actions">
+                    <button class="btn-primary" onclick="showSubscriptionModal()">
+                        <i class="fas fa-credit-card"></i> Obuna sotib olish
+                    </button>
+                    <button class="btn-secondary" onclick="showUserHistory()">
+                        <i class="fas fa-history"></i> Tomosha tarixi
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Buy Subscription Modal -->
+    <div id="subscriptionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Obuna Sotib Olish</h3>
+                <span class="close" onclick="closeModal('subscriptionModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="subscriptionForm" onsubmit="buySubscription(event)">
+                    <div class="form-group">
+                        <label for="subscriptionType">Obuna turi</label>
+                        <select id="subscriptionType" required>
+                            <option value="">Tanlang</option>
+                            <option value="GENERAL">Umumiy - $9.99/oy</option>
+                            <option value="PREMIUM">Premium - $19.99/oy</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="subscriptionDuration">Davomiyligi (oy)</label>
+                        <input type="number" id="subscriptionDuration" min="1" max="12" required>
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Sotib olish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="toastMessage"></span>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Yuklanmoqda...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

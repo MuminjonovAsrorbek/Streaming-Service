@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/streaming_service
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  banner:
+    location: classpath:banner.txt
+  main:
+    allow-bean-definition-overriding: true
+  task:
+    scheduling:
+      pool:
+        size: 2
+      shutdown:
+        await-termination: true
+  web:
+    resources:
+      static-locations: classpath:/static/
+  mvc:
+    static-path-pattern: /**
